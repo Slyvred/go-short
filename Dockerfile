@@ -1,16 +1,14 @@
-ARG GO_VERSION=1
-FROM golang:${GO_VERSION}-bookworm as builder
+ARG GO_VERSION=1.24.4
+FROM golang:${GO_VERSION}-bookworm AS builder
 
-WORKDIR /usr/src/app
+WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 COPY . .
-RUN go build -v -o /run-app .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o server .
 
-
-FROM debian:bookworm
-
-RUN apt-get update && apt-get install -y ca-certificates
-
-COPY --from=builder /run-app /usr/local/bin/
-CMD ["run-app"]
+FROM gcr.io/distroless/static:nonroot
+COPY --from=builder /app/server /server
+EXPOSE 8080
+USER nonroot
+ENTRYPOINT ["/server"]
