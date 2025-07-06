@@ -25,7 +25,7 @@ POST /shorten - Create a shortened URL
 GET /:short - Redirect to original URL
 		Example: GET /abc12345 redirects to the original URL
 
-GET /stats/:short - Get URL statistics
+GET /:short/stats - Get URL statistics
 		Example response: {"original": "https://example.com", "accessCount": 5, "lastAccessed": "2025-07-06T10:30:00Z"}
 
 Note: Shortened urls that haven't been clicked in the last 60 days are automatically deleted.`
