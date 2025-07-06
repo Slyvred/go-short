@@ -8,6 +8,8 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	collection := connectToMongo()
 
+	deleteOldUrls(collection) // Delete Urls that haven't been accessed in the last 60 days
+
 	router := gin.Default()
 	router.POST("/shorten", func(c *gin.Context) {
 		postCreateShortenUrl(c, collection)

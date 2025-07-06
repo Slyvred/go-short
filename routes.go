@@ -42,12 +42,12 @@ func postCreateShortenUrl(c *gin.Context, coll *mongo.Collection) {
 	}
 
 	newUrl := shortenedUrl{
-		ID:             uuid.New().String(),
-		Original:       originalUrl,
-		Shortened:      short,
-		CreatedAt:      time.Now(),
-		LastAccessedAt: time.Now(),
-		AccessCount:    0,
+		ID:           uuid.New().String(),
+		Original:     originalUrl,
+		Shortened:    short,
+		CreatedAt:    time.Now(),
+		LastAccessed: time.Now(),
+		AccessCount:  0,
 	}
 
 	// Insert url in db
@@ -77,7 +77,7 @@ func getUrlStats(c *gin.Context, coll *mongo.Collection) {
 	c.IndentedJSON(http.StatusOK, gin.H{
 		"original":     result.Original,
 		"accessCount":  result.AccessCount,
-		"lastAccessed": result.LastAccessedAt,
+		"lastAccessed": result.LastAccessed,
 	})
 }
 
@@ -94,11 +94,11 @@ func getShortenedUrl(c *gin.Context, coll *mongo.Collection) {
 
 	// Update object
 	result.AccessCount++
-	result.LastAccessedAt = time.Now()
+	result.LastAccessed = time.Now()
 
 	coll.UpdateOne(context.TODO(), bson.M{"shortened": short}, bson.M{"$set": bson.M{
-		"accessCount":    result.AccessCount,
-		"lastAccessedAt": result.LastAccessedAt,
+		"accessCount":  result.AccessCount,
+		"lastAccessed": result.LastAccessed,
 	}})
 
 	c.Redirect(http.StatusFound, result.Original)
