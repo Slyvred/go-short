@@ -15,7 +15,7 @@ import (
 
 func hello(c *gin.Context) {
 
-	body := `Welcome to Go-short, a minimalist URL shortener I built in Go in order to learn the langage.
+	body := `Welcome to Go-short, a minimalist URL shortener I built in Go in order to learn the language.
 
 Routes:
 POST /shorten - Create a shortened URL
