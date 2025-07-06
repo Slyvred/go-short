@@ -13,6 +13,26 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+func hello(c *gin.Context) {
+
+	body := `Welcome to Go-short, a minimalist URL shortener I built in Go in order to learn the langage.
+
+Routes:
+POST /shorten - Create a shortened URL
+		Form data: url (the original URL to shorten)
+		Example response: {"shortened": "abc12345", "original": "https://example.com"}
+
+GET /:short - Redirect to original URL
+		Example: GET /abc12345 redirects to the original URL
+
+GET /stats/:short - Get URL statistics
+		Example response: {"original": "https://example.com", "accessCount": 5, "lastAccessed": "2025-07-06T10:30:00Z"}
+
+Note: Shortened urls that haven't been clicked in the last 60 days are automatically deleted.`
+
+	c.String(http.StatusOK, body)
+}
+
 func postCreateShortenUrl(c *gin.Context, coll *mongo.Collection) {
 	originalUrl := c.PostForm("url")
 	c.Bind(&originalUrl)
