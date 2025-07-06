@@ -41,7 +41,7 @@ GET /{short_code}
 
 ### Get Stats
 ```
-GET /stats/{short_code}
+GET /{short_code}/stats
 ```
 
 #### Response
