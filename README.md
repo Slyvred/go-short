@@ -32,6 +32,8 @@ POST /shorten
 }
 ```
 
+**Note**: URLs that have not been accessed for 60 days are automatically removed from the system.
+
 ### Redirect
 ```
 GET /{short_code}
